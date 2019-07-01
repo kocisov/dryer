@@ -1,0 +1,26 @@
+{
+  "name": "drye",
+  "description": "Cloak create-react-app files with symlink.",
+  "version": "0.0.1",
+  "author": "Ondřej Kocián <kocis.34@gmail.com>",
+  "bin": {
+    "drye": "index.js"
+  },
+  "bugs": "https://github.com/kocisov/drye/issues",
+  "dependencies": {
+    "clipanion": "^0.16.1"
+  },
+  "homepage": "https://github.com/kocisov/drye",
+  "keywords": [
+    "cra",
+    "drye",
+    "dryer",
+    "react",
+    "src",
+    "symlink"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "private": false,
+  "repository": "https://github.com/kocisov/drye"
+}
