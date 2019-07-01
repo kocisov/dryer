@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const ora = require('ora')
 const { homedir } = require('os')
 const { resolve } = require('path')
 const { clipanion } = require('clipanion')
@@ -51,6 +52,12 @@ clipanion
   .command(`create <name>`)
   .describe(`Create new project.`)
   .action(({ name: projectName }) => {
+    const spinner = ora({
+      text: 'Creating project with create-react-app.',
+      stream: process.stdout,
+      color: 'white'
+    }).start()
+
     const projectFolder = resolve(dryeFiles, projectName)
 
     if (!existsSync(dryeFiles)) {
@@ -58,13 +65,21 @@ clipanion
     }
 
     execSync(`create-react-app ${projectName}`, {
-      cwd: dryeFiles
+      cwd: dryeFiles,
+      stdio: 'ignore'
     })
 
-    symlinkSync(resolve(projectFolder, 'src'), resolve(cwd, projectName))
+    if (!existsSync(resolve(process.cwd(), projectName))) {
+      symlinkSync(
+        resolve(projectFolder, 'src'),
+        resolve(process.cwd(), projectName)
+      )
+    }
+
+    spinner.stop()
 
     console.log(`Real project folder @ ${projectFolder}`)
-    console.log(`> cd ${projectFolder}`)
+    console.log(`Your source files > cd ${projectName}`)
   })
 
 clipanion.runExit(process.argv0, process.argv.slice(2))
