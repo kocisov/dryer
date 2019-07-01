@@ -1,7 +1,7 @@
 {
   "name": "drye",
   "description": "Cloak create-react-app files with symlink.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Ondřej Kocián <kocis.34@gmail.com>",
   "bin": {
     "drye": "index.js"
