@@ -5,7 +5,7 @@ const rimraf = require('rimraf')
 const { homedir } = require('os')
 const { resolve, basename } = require('path')
 const { clipanion } = require('clipanion')
-const { exec } = require('child_process')
+const { exec, spawn } = require('child_process')
 const { symlinkSync, readlinkSync, existsSync, mkdirSync } = require('fs')
 
 const cwd = process.cwd()
@@ -33,9 +33,8 @@ clipanion
     const symlink = getSymLink()
 
     exec(`yarn add ${dependency} ${dependencies.join(' ')}`, {
-      cwd: symlink,
-      stdio: 'inherit'
-    })
+      cwd: symlink
+    }).stdout.on('data', console.log)
   })
 
 clipanion
@@ -44,7 +43,7 @@ clipanion
   .action(({ command }) => {
     const symlink = getSymLink()
 
-    exec(`yarn ${command}`, {
+    spawn(`yarn`, [command], {
       cwd: symlink,
       stdio: 'inherit'
     })
@@ -67,7 +66,7 @@ clipanion
 
     rimraf(symlink, () => {
       rimraf(realPath, () => {
-        rimraf(resolve(home, '.drye', projectName), () => {
+        rimraf(resolve(dryeFiles, projectName), () => {
           spinner.stop()
           console.log('Project was removed.')
         })
